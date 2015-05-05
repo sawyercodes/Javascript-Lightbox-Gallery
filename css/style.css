@@ -1,0 +1,137 @@
+
+/* Grid
+_____________________________*/
+
+.row:before, .row:after {
+    content:"";
+    display: table ;
+    clear:both;
+}
+
+.row {
+	margin-right: -10px;
+	margin-left: -10px;
+}
+
+[class*='grid-'] {
+    float: left; 
+    min-height: 1px;
+    box-sizing: border-box;
+    padding-left: 10px; 
+    padding-right: 10px;
+}
+
+.grid-1 { width: 8.333%; }
+
+.grid-2 { width: 16.667%; }
+
+.grid-3 { width: 25%; }
+
+.grid-4 { width: 33.333%; }
+
+.grid-5 { width: 41.667%; }
+
+.grid-6 { width: 50%; }
+
+.grid-7 { width: 58.333%; }
+
+.grid-8 { width: 66.667%; }
+
+.grid-9 { width: 75%; }
+
+.grid-10 { width: 83.333%; }
+
+.grid-11 { width: 91.667%; }
+
+.grid-12 { width: 100%; }
+
+/* General Layout
+_____________________________*/
+
+body {
+    font-family: helvetica, arial, sans-serif;
+}
+
+.wrapper {
+    padding: 0 20px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* Gallery
+_____________________________*/
+
+.gallery {
+    margin-top: 20px;
+}
+
+.gallery h2 {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background: #eee;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+}
+
+.gallery-container {
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: block;
+
+}
+
+.gallery-container img {
+    width: 100%;
+    border-radius: 5px;
+    float: left;
+    cursor: pointer;
+}
+
+#lightbox-background {
+    background: rgba(0,0,0,0.75);
+    position: fixed;
+    top: 0;
+    display: none;
+    color: #999;
+    width: 100%;
+    height: 100%;
+}
+
+#lightbox-container {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#lightbox-background img {
+    max-width: 90%;
+}
+
+#close, #left, #right {
+    cursor: pointer;
+    position: absolute;
+    padding: 5px;
+    margin: -5px;    
+}
+
+#close {
+    z-index: 102;
+    padding-bottom: 7px;
+}
+
+#left {
+    right: 50%;
+    z-index: 101;
+    text-align: left;
+}
+
+#right {
+    left: 50%;
+    text-align: right;
+    z-index: 101;
+}
+
+#close:hover, #left:hover, #right:hover {
+    color: #7dbfab;
+}
