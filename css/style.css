@@ -102,6 +102,7 @@ _____________________________*/
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    background: url('../img/loading.gif') no-repeat center;
 }
 
 #lightbox-background img {

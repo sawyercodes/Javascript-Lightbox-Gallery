@@ -34,8 +34,9 @@
 			</div><!-- /row -->
 		</div><!-- /gallery -->
 	</div><!-- /wrapper -->
- 
+
 <script type="text/javascript" src="js/gallery.js"></script>
+<script src="https://hammerjs.github.io/dist/hammer.js"></script><!-- add hammer.js for touch functionality -->
 
 </body>
 </html>

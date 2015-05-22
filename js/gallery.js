@@ -106,7 +106,11 @@ function openLightbox() {
 
     //run lightbox functions
     //position buttons
-    lbImg.addEventListener('load', buttonPos);
+	lbImg.onload = function() {
+		lbImg.style.visibility = 'visible';
+		buttonPos();
+	};
+    //lbImg.addEventListener('load', buttonPos);
     //close image using close button
     var close = document.getElementById('close');
     close.addEventListener('click', closeLightbox);
@@ -119,6 +123,9 @@ function openLightbox() {
     //next image
     var right = document.getElementById('right');
     right.addEventListener('click', nextImage);
+
+    Hammer(lbImg).on("swipeleft", nextImage);
+    Hammer(lbImg).on("swiperight", prevImage);
 
 	//Stop bubbling so the buttons dont close lightbox
 	close.onclick = function(e) {
@@ -177,8 +184,11 @@ var prevImage = function() {
 	var lbImg = document.getElementById('lightbox-image');
 	lbImg.src = newSrc;
 }
+
 //create next image function
 var nextImage = function() {
+	var lbImg = document.getElementById('lightbox-image');
+	lbImg.style.visibility = 'hidden';
 	var next = document.getElementById('active');
 	//get the next thumb
 	//this one gets whitespace
@@ -203,172 +213,5 @@ var nextImage = function() {
 	var newSrc = document.getElementById('active');
 	var newSrc = newSrc.getElementsByClassName('gallery-container');
 	var newSrc = newSrc[0].getAttribute('data-src');
-	var lbImg = document.getElementById('lightbox-image');
 	lbImg.src = newSrc;
-}
-
-function lightbox() {
-	//Add Lightbox
-	var body = document.body;
-	var lightbox = document.createElement('div');
-	lightbox.id = 'lightbox-background';
-	lightbox.innerHTML = '<div id="lightbox-container" data-test="lightbox-container"><div id="close">CLOSE</div><div id="left">PREVIOUS</div><div id="right">NEXT</div></div>';
-	body.appendChild(lightbox);
-	lightbox.dataset.test = "lightbox-background";
-
-
-	//create thumbnail vars thumbnails
-	var thumbs = document.getElementById('thumbnails');
-	var div = thumbs.querySelectorAll('.gallery-container');
-
-	//create lightbox click function
-    var lightboxOpen = function() {
-    	//give clicked image thumb id of active
-    	this.parentNode.id = 'active';
-    	var active = document.getElementById('active')
-    	//src var from div data-src
-        var src = this.getAttribute("data-src");
-        //set lighbox vars
-        var lb = document.getElementById('lightbox-background');
-        var lbCont = document.getElementById('lightbox-container');
-        //create image
-        var lbImg = new Image();
-        lbImg.src = src;
-        //add image to lightbox
-        lbCont.appendChild(lbImg);
-        //show lightbox
-        lb.style.display = 'table';
-
-        var buttonPos = function() {
-			//style close, left and right buttons
-			var close = document.getElementById('close');
-			var left = document.getElementById('left');
-			var right = document.getElementById('right');
-			//get width and height of image
-			var imgWidth = lbImg.width;
-			var imgWidth = imgWidth / 2;
-			//get position of image
-		    var pos = lbImg.getBoundingClientRect();
-		    //set position of buttons
-		    var closeStyle = close.style;
-		    var leftStyle = left.style;
-		    var rightStyle = right.style;
-		    var nudge = getStyle(close, "font-size");
-		    var nudge = parseInt(nudge, 10);
-		    var margin = 7;
-		    closeStyle.top = pos.top - nudge - margin + 'px';
-		    closeStyle.right = pos.left + 'px';
-		    leftStyle.left = pos.left + 'px';
-		    leftStyle.top = rightStyle.top = pos.bottom + margin + 'px';
-		    rightStyle.right = pos.left + 'px';
-        }
-
-        lbImg.addEventListener('load', buttonPos);
-
-	    //create close function
-		var closeImg = function() {
-			//hide lightbox
-			lb.style.display = 'none'
-			//remove active id
-        	var active = document.getElementById('active');
-        	active.removeAttribute('id');
-        	var img = document.querySelector('img');
-        	img.parentNode.removeChild(img);
-        	var x = '';		
-		}
-
-		//create previous image function
-		var previousImg = function() {
-			var nodeList = Array.prototype.slice.call(document.getElementById('thumbnails').children);
-			var active = document.getElementById('active');
-			var x = nodeList.indexOf(active);
-			console.log(x);
-			var prev = document.getElementById('thumbnails').children.item(x - 1);
-			console.log(prev);
-			//get the current thumb
-			var prev = document.getElementById('active');
-			//get the previous thumb
-        	//this one gets whitespace
-        	var prev = prev.previousSibling;
-        	//this one gets the previous active element
-        	var prev = prev.previousSibling;
-        	//remove active id from current thumb
-        	var active = document.getElementById('active');
-        	active.removeAttribute('id');
-        	//if you're on the first thumb
-        	if (prev == null) {
-        		//get the last thumb
-        		var lastImg = active.parentNode.lastChild;
-        		var lastImg = lastImg.previousSibling;
-        		//add active to the last thumb
-        		lastImg.id = 'active';
-        	} else {
-	        	//add active id to previous thumb
-	        	prev.id = 'active';
-        	}
-        	//get src of new thumb
-        	var newSrc = document.getElementById('active');
-        	var newSrc = newSrc.getElementsByClassName('gallery-container');
-        	var newSrc = newSrc[0].getAttribute('data-src');
-        	lbImg.src = newSrc;
-		}
-
-		//create next image function
-		var nextImg = function() {
-			var next = document.getElementById('active');
-			//get the next thumb
-        	//this one gets whitespace
-        	var next = next.nextSibling;
-        	//this one gets the element
-        	var next = next.nextSibling;
-        	//remove active id from current thumb
-        	var active = document.getElementById('active');
-        	active.removeAttribute('id');
-        	//if you're on the last thumb
-        	if (next == null) {
-        		//get the last thumb
-        		var firstImg = active.parentNode.firstChild;
-        		var firstImg = firstImg.nextSibling;
-        		//add active to the last thumb
-        		firstImg.id = 'active';
-        	} else {
-	        	//add active id to previous thumb
-	        	next.id = 'active';
-        	}
-        	//get src of new thumb
-        	var newSrc = document.getElementById('active');
-        	var newSrc = newSrc.getElementsByClassName('gallery-container');
-        	var newSrc = newSrc[0].getAttribute('data-src');
-        	lbImg.src = newSrc;
-		}
-
-        //Set click events
-		var close = document.getElementById('close');
-	    close.addEventListener('click', closeImg);
-
-		var left = document.getElementById('left');
-	    left.addEventListener('click', previousImg);
-
-		var right = document.getElementById('right');
-	    right.addEventListener('click', nextImg);
-
-	    lightbox.addEventListener('click', closeImg);
-
-		//Stop bubbling
-		close.onclick = function(e) {
-			e.stopPropagation();
-		}
-		left.onclick = function(e) {
-			e.stopPropagation();
-		}
-		right.onclick = function(e) {
-			e.stopPropagation();
-		}
-		var img = 	document.querySelector('img');
-		img.onclick = function(e) {
-			e.stopPropagation();
-		}
-
-    }; 
-
 }
