@@ -130,8 +130,7 @@ function openLightbox() {
 	right.onclick = function(e) {
 		e.stopPropagation();
 	}
-	var img = 	document.querySelector('img');
-	img.onclick = function(e) {
+	lbImg.onclick = function(e) {
 		e.stopPropagation();
 	}
 }
